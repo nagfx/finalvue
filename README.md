@@ -7,6 +7,7 @@ This template should help get you started developing with Vue 3 in Vite.
 Used DAPI API:https://digi-api.com/api/v1/digimon
 TailwindCSS for styling along custom CSS.
 Used Axios to fetch API
+Used Invisible Scrolling Tailwind plugin https://github.com/reslear/tailwind-scrollbar-hide
 
 Will implement the function for search bar soon.
 

@@ -1,6 +1,9 @@
 <template>
+  <!-- The template section defines the HTML structure of the component. -->
   <div class="container mx-auto px-4">
+    <!-- A container for the digimons with a search input field. -->
     <div class="flex items-center justify-between">
+      <!-- A flex container with a centered heading and search input field. -->
       <p class="text-xl md:text-5xl font-bold text-center py-3 my-4">
         Digimon library Vue App
       </p>
@@ -11,11 +14,13 @@
       />
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-3">
+      <!-- A grid to display the digimons. -->
       <div
         class="card scrollingDescription scrollbar-hide"
         v-for="(digimon, index) in digimons"
         :key="index"
       >
+        <!-- A card with an image, name, id, type, and description of the digimon. -->
         <img :src="digimon.images[0].href" alt="" class="display-image" />
         <p class="text-2xl font-bold text-center my-2 capitalize">
           {{ digimon.name }}
@@ -47,7 +52,7 @@
       </div>
     </div>
     <div class="my-3 text-center">
-      <!-- The previous button only shows when the offset is not 0. -->
+      <!-- Buttons to navigate through the different pages of digimons. -->
       <button
         v-if="page !== 0"
         @click="showPreviousDigimons"
@@ -65,6 +70,7 @@
     </div>
   </div>
   <footer class="bg-indigo-100">
+    <!-- The footer of the page with a copyright notice. -->
     <div class="container mx-auto text-left mt-10 py-3">
       <p class="text-xl">Copyright Naman</p>
     </div>
@@ -72,13 +78,13 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"; // importing axios library to make HTTP requests
 
 export default {
   data() {
     return {
-      digimons: [],
-      page: 0,
+      digimons: [], // array to store fetched digimons
+      page: 0, // current page number
     };
   },
   methods: {
@@ -86,32 +92,30 @@ export default {
       try {
         let { data } = await axios.get(
           `https://digimon-api.com/api/v1/digimon?page=${this.page}`
-        );
-        this.digimons.length = 0;
+        ); // making GET request to fetch digimons data from API
+        this.digimons.length = 0; // resetting the array to remove previously fetched digimons
         data.content.map(async (obj) => {
-          let { data } = await axios.get(obj.href);
-          // reset the array to display specific digimons according to assigned offset and limit
-          this.digimons.push(data);
+          let { data } = await axios.get(obj.href); // making GET request to fetch individual digimon data using href
+          this.digimons.push(data); // pushing the digimon data to the array
         });
-        // sort function to ensure the Digimons appear sorted
         this.digimons.sort((a, b) => {
           return a.id - b.id;
-        });
+        }); // sorting the digimons based on their ID
       } catch (err) {
-        alert(err);
+        alert(err); // displaying an alert if there's an error in fetching the digimons
       }
     },
     async showNextDigimons() {
       this.page++;
-      this.fetchData();
+      this.fetchData(); // fetching the next page of digimons
     },
     showPreviousDigimons() {
       this.page--;
-      this.fetchData();
+      this.fetchData(); // fetching the previous page of digimons
     },
   },
   mounted() {
-    this.fetchData();
+    this.fetchData(); // fetching the initial page of digimons on component mount
   },
 };
 </script>
