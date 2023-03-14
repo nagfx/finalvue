@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #eee;
+}
+
+.scrollingDescription {
+  max-height: 600px;
+  overflow: auto;
+}
